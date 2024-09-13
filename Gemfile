@@ -60,7 +60,6 @@ group :development do
   # gem "spring"
 end
 
-gem "pg"
 gem "cssbundling-rails"
 gem "simple_form"
 gem "yard"
