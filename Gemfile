@@ -70,7 +70,6 @@ group :development do
   gem "pry"
   gem "pry-rails"
   gem "bullet"
-  gem "rubocop"
   gem "letter_opener"
   gem "rubocop", require: false
   gem "rubocop-performance", require: false
