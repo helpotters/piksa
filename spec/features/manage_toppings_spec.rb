@@ -12,19 +12,32 @@ RSpec.describe 'Manage Toppings', type: :feature do
     expect(page).to have_content('Pepperoni')
     expect(page).to have_content('Mushroom')
   end
+  context 'as StoreOwner' do
+    scenario 'add a new topping' do
+        store_owner = User.create!(email: 'owner@pizza.com', password: 'i<3pizza', role: 'store_owner')
 
-  scenario 'add a new topping' do
-    store_owner = User.create!(email: 'owner@pizza.com', password: 'i<3pizza', role: 'store_owner')
+        sign_in store_owner
 
-    sign_in store_owner
+        visit new_topping_path
 
-    visit new_topping_path
+        fill_in 'Name', with: 'Bell Peppers'
+        click_button 'Create Topping'
 
-    fill_in 'Name', with: 'Bell Peppers'
-    click_button 'Create Topping'
+        expect(page).to have_content('Bell Peppers')
+        expect(Topping.count).to eq(1)
+    end
 
-    expect(page).to have_content('Bell Peppers')
-    expect(Topping.count).to eq(1)
+    scenario 'delete a topping' do
+        store_owner = User.create!(email: 'owner@pizza.com', password: 'i<3pizza', role: 'store_owner')
+        sign_in store_owner
+
+        topping = Topping.create!(name: 'Pepperoni')
+        visit toppings_path
+        find("#delete-topping-#{topping.id}").click
+
+        expect(page).not_to have_content('Pepperoni')
+        expect(Topping.count).to eq(0)
+    end
   end
   scenario 'PizzaChef cannot add a new topping' do
     pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizzamore', role: 'pizza_chef')
@@ -32,8 +45,10 @@ RSpec.describe 'Manage Toppings', type: :feature do
 
     visit new_topping_path
 
-    expect(page).to have_content('You are not authorized to perform this action')
+    expect(page).to have_content('You are not papa john')
     expect(current_path).to eq(root_path)
 
   end
+
+
 end

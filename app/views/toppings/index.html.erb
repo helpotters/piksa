@@ -2,6 +2,11 @@
 
 <ul>
   <% @toppings.each do |topping| %>
-    <li><%= topping.name %></li>
+    <li>
+      <%= topping.name %>
+      <% if current_user&.role == 'store_owner' %>
+        <%= link_to 'Delete', topping_path(topping), method: :delete, data: { confirm: 'Are you sure?' }, id: "delete-topping-#{topping.id}" %>
+      <% end %>
+    </li>
   <% end %>
 </ul>
