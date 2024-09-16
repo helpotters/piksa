@@ -56,4 +56,28 @@ RSpec.describe 'Manage Pizzas' do
     expect(page).not_to have_content('Margherita')
     expect(Pizza.count).to eq(0)
   end
+
+  scenario 'update an existing pizza and its toppings' do
+    pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizza', role: 'pizza_chef')
+    sign_in pizza_chef
+
+    # Create a pizza with existing toppings
+    cheese = Topping.create!(name: 'Cheese')
+    pepperoni = Topping.create!(name: 'Pepperoni')
+    pizza = Pizza.create!(name: 'Margherita', toppings: [cheese])
+
+    # Visit the edit page for the pizza
+    visit edit_pizza_path(pizza)
+
+    # Update the pizza name and modify toppings
+    fill_in 'Name', with: 'Extra Cheesy'
+    uncheck 'Cheese'   # Remove Cheese
+    check 'Pepperoni'  # Add Pepperoni
+    click_button 'Update Pizza'
+
+    # Expectations: check that the pizza was updated correctly
+    expect(page).to have_content('Extra Cheesy')  # Updated pizza name
+    expect(page).to have_content('Pepperoni')    # Updated topping
+    expect(page).not_to have_content('Cheese')   # Removed topping
+  end
 end

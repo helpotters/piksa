@@ -1,6 +1,6 @@
 class PizzasController < ApplicationController
   before_action :authorize_pizza_chef
-  before_action :set_pizza, only: [:destroy]
+  before_action :set_pizza, only: [:edit, :update, :destroy]
 
   def index
     @pizzas = Pizza.all
@@ -29,6 +29,16 @@ class PizzasController < ApplicationController
     @pizza.destroy
     redirect_to pizzas_path, notice: 'Unworthy pizza, begone.'
   end
+
+  def update
+    if @pizza.update(pizza_params)
+      redirect_to pizzas_path, notice: 'Pizza was successfully updated.'
+    else
+      @toppings = Topping.all  # Re-load toppings if validation fails
+      render :edit
+    end
+  end
+
 
   private
 
