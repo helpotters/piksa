@@ -90,3 +90,5 @@ group :development, :test do
   gem "webmock"
   gem "formulaic"
 end
+
+gem "devise", "~> 4.9"
