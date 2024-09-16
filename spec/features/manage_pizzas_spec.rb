@@ -80,4 +80,16 @@ RSpec.describe 'Manage Pizzas' do
     expect(page).to have_content('Pepperoni')    # Updated topping
     expect(page).not_to have_content('Cheese')   # Removed topping
   end
+  scenario 'prevent duplicate pizza names' do
+    pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizza', role: 'pizza_chef')
+    sign_in pizza_chef
+
+    Pizza.create!(name: 'Margherita')
+
+    visit new_pizza_path
+    fill_in 'Name', with: 'Margherita'
+    click_button 'Create Pizza'
+
+    expect(page).to have_content('has already been taken')
+  end
 end
