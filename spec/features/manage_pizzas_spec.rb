@@ -23,5 +23,23 @@ RSpec.describe 'Manage Pizzas' do
     expect(page).to have_content('Pepperoni')
     expect(page).to have_content('Sliced Sausage')
   end
+  scenario 'create a new pizza with toppings' do
+    pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizza', role: 'pizza_chef')
+    sign_in pizza_chef
 
+    cheese = Topping.create!(name: 'Cheese')
+    pepperoni = Topping.create!(name: 'Pepperoni')
+
+    visit new_pizza_path
+
+    check 'Cheese'
+    check 'Pepperoni'
+
+    fill_in 'Name', with: 'Hawaiian'
+    click_button 'Create Pizza'
+
+    expect(page).to have_content('Hawaiian')
+    expect(page).to have_content('Cheese')
+    expect(page).to have_content('Pepperoni')
+  end
 end
