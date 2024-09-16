@@ -26,4 +26,14 @@ RSpec.describe 'Manage Toppings', type: :feature do
     expect(page).to have_content('Bell Peppers')
     expect(Topping.count).to eq(1)
   end
+  scenario 'PizzaChef cannot add a new topping' do
+    pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizzamore', role: 'pizza_chef')
+    sign_in pizza_chef
+
+    visit new_topping_path
+
+    expect(page).to have_content('You are not authorized to perform this action')
+    expect(current_path).to eq(root_path)
+
+  end
 end
