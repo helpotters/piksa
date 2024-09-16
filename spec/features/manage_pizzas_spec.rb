@@ -23,6 +23,7 @@ RSpec.describe 'Manage Pizzas' do
     expect(page).to have_content('Pepperoni')
     expect(page).to have_content('Sliced Sausage')
   end
+
   scenario 'create a new pizza with toppings' do
     pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizza', role: 'pizza_chef')
     sign_in pizza_chef
@@ -41,5 +42,18 @@ RSpec.describe 'Manage Pizzas' do
     expect(page).to have_content('Hawaiian')
     expect(page).to have_content('Cheese')
     expect(page).to have_content('Pepperoni')
+  end
+
+  scenario 'delete an existing pizza' do
+    pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizza', role: 'pizza_chef')
+    sign_in pizza_chef
+
+    pizza = Pizza.create!(name: 'Margherita')
+
+    visit pizzas_path
+    find("#delete-pizza-#{pizza.id}").click
+
+    expect(page).not_to have_content('Margherita')
+    expect(Pizza.count).to eq(0)
   end
 end
