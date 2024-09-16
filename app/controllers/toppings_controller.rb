@@ -1,8 +1,12 @@
 class ToppingsController < ApplicationController
-  before_action :authorize_store_owner, only: [:new, :create, :destroy]
+  before_action :authorize_store_owner, only: [:new, :create, :edit, :destroy]
 
   def index
     @toppings = Topping.all
+  end
+
+  def edit
+    @topping = Topping.find(params[:id])
   end
 
   def new

@@ -1,0 +1,26 @@
+<h1>Edit Topping</h1>
+
+<%= form_with(model: @topping, local: true) do |form| %>
+  <% if @topping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@topping.errors.count, "error") %> the topping refuses to become something else:</h2>
+
+      <ul>
+        <% @topping.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Transmute this topping' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to Toppings', toppings_path %>

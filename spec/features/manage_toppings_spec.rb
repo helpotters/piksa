@@ -38,7 +38,21 @@ RSpec.describe 'Manage Toppings', type: :feature do
         expect(page).not_to have_content('Pepperoni')
         expect(Topping.count).to eq(0)
     end
+
+    scenario 'edit a topping' do
+        store_owner = User.create!(email: 'owner@pizza.com', password: 'i<3pizza', role: 'store_owner')
+        sign_in store_owner
+
+        topping = Topping.create!(name: 'Pepperoni')
+        visit edit_topping_path(topping)
+
+        fill_in 'Name', with: 'Bacon'
+        click_button 'Transmute this topping'
+
+        expect(page).to have_content('Bacon')
+    end
   end
+
   scenario 'PizzaChef cannot add a new topping' do
     pizza_chef = User.create!(email: 'chef@pizza.com', password: 'i<3pizzamore', role: 'pizza_chef')
     sign_in pizza_chef
@@ -49,6 +63,4 @@ RSpec.describe 'Manage Toppings', type: :feature do
     expect(current_path).to eq(root_path)
 
   end
-
-
 end
