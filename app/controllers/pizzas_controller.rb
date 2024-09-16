@@ -1,5 +1,6 @@
 class PizzasController < ApplicationController
   before_action :authorize_pizza_chef
+  before_action :set_pizza, only: [:destroy]
 
   def index
     @pizzas = Pizza.all
@@ -22,6 +23,11 @@ class PizzasController < ApplicationController
 
   def edit
     @toppings = Topping.all
+  end
+
+  def destroy
+    @pizza.destroy
+    redirect_to pizzas_path, notice: 'Unworthy pizza, begone.'
   end
 
   private
