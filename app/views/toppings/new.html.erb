@@ -1,0 +1,15 @@
+<!-- app/views/toppings/new.html.erb -->
+<h1>New Topping</h1>
+
+<%= form_with(model: @topping, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Topping' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', toppings_path %>
