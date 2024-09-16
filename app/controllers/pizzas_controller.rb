@@ -1,5 +1,5 @@
 class PizzasController < ApplicationController
-  before_action :authorize_pizza_chef
+  before_action :authorize_pizza_chef, except: [:index]
   before_action :set_pizza, only: [:edit, :update, :destroy]
 
   def index

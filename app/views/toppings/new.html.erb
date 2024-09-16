@@ -1,15 +1,20 @@
 <!-- app/views/toppings/new.html.erb -->
-<h1>New Topping</h1>
+<h1 class="text-4xl font-bold text-center mb-6">Create a New Topping</h1>
 
-<%= form_with(model: @topping, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+  <%= form_with(model: @topping, local: true, class: "space-y-4") do |form| %>
+
+    <div class="form-control">
+      <%= form.label :name, class: "label text-lg font-medium" %>
+      <%= form.text_field :name, class: "input input-bordered w-full", placeholder: "Enter topping name" %>
+    </div>
+
+    <div class="form-control mt-6">
+      <%= form.submit 'Create Topping', class: "btn btn-primary w-full" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to 'Back to Toppings', toppings_path, class: "btn btn-outline w-full" %>
   </div>
-
-  <div class="actions">
-    <%= form.submit 'Create Topping' %>
-  </div>
-<% end %>
-
-<%= link_to 'Back', toppings_path %>
+</div>

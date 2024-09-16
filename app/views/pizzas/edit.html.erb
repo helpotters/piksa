@@ -1,33 +1,45 @@
-<h1>Edit Pizza</h1>
+<h1 class="text-4xl font-bold text-center mb-6">Edit Pizza</h1>
 
-<%= form_with(model: @pizza, local: true) do |form| %>
-  <% if @pizza.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@pizza.errors.count, "error") %> prohibited this pizza from being saved:</h2>
-      <ul>
-        <% @pizza.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+  <%= form_with(model: @pizza, local: true, class: "space-y-4") do |form| %>
+
+    <% if @pizza.errors.any? %>
+      <div class="alert alert-error shadow-lg">
+        <div>
+          <h2 class="font-bold"><%= pluralize(@pizza.errors.count, "error") %> prohibited this pizza from being saved:</h2>
+          <ul class="list-disc list-inside">
+            <% @pizza.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-control">
+      <%= form.label :name, class: "label text-lg font-semibold" %>
+      <%= form.text_field :name, class: "input input-bordered w-full", placeholder: "Enter pizza name" %>
     </div>
+
+    <div class="form-control">
+      <%= form.label :toppings, "Select Toppings", class: "label text-lg font-semibold" %>
+      <div class="grid grid-cols-2 gap-4 mt-2">
+        <% @toppings.each do |topping| %>
+          <label class="cursor-pointer flex items-center space-x-2">
+            <%= check_box_tag 'pizza[topping_ids][]', topping.id, @pizza.toppings.include?(topping), class: "checkbox checkbox-primary", id: "topping_#{topping.id}" %>
+            <%= label_tag "topping_#{topping.id}", topping.name, class: "text-gray-800" %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-control mt-6">
+      <%= form.submit 'Update Pizza', class: "btn btn-primary w-full" %>
+    </div>
+
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="mt-4">
+    <%= link_to 'Back to Pizzas', pizzas_path, class: "btn btn-outline w-full" %>
   </div>
-
-  <div class="field">
-    <%= form.label :toppings, "Select Toppings" %><br>
-    <% @toppings.each do |topping| %>
-      <%= check_box_tag 'pizza[topping_ids][]', topping.id, @pizza.toppings.include?(topping), id: "topping_#{topping.id}" %>
-      <%= label_tag "topping_#{topping.id}", topping.name %><br>
-    <% end %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit 'Update Pizza' %>
-  </div>
-<% end %>
-
-<%= link_to 'Back to Pizzas', pizzas_path %>
+</div>

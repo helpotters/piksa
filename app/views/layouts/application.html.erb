@@ -11,6 +11,34 @@
   </head>
 
   <body>
+    <!-- Navbar -->
+    <div class="navbar bg-base-100">
+      <div class="flex-1">
+        <a href="/" class="btn btn-ghost text-xl">Piksa</a>
+      </div>
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          <li><%= link_to "Manage Pizzas", pizzas_path %></li>
+          <% if current_user&.role == 'store_owner' %>
+            <li><%= link_to "Manage Toppings", toppings_path %></li>
+          <% end %>
+        </ul>
+
+        <!-- Login/Logout Button for Devise Users -->
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <% if user_signed_in? %>
+              <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+            <% else %>
+              <li><%= link_to "Sign In", new_user_session_path %></li>
+              <li><%= link_to "Sign Up", new_user_registration_path %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flash Messages -->
     <% flash.each do |key, message| %>
       <div class="flash <%= key %>">
         <%= message %>

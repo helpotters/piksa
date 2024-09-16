@@ -1,18 +1,25 @@
-<h1>Pizzas List</h1>
+<h1 class="text-4xl font-bold text-center mb-6">Pizzas List</h1>
 
-<ul>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
   <% @pizzas.each do |pizza| %>
-    <li>
-      <strong><%= pizza.name %></strong>
-      <ul>
+    <div class="card bg-white shadow-lg rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4"><%= pizza.name %></h2>
+
+      <div class="text-lg font-semibold mb-2">Toppings:</div>
+      <ul class="list-disc list-inside text-gray-600 mb-4">
         <% pizza.toppings.each do |topping| %>
           <li><%= topping.name %></li>
         <% end %>
       </ul>
-      <%= link_to 'Edit', edit_pizza_path(pizza) %> |
-      <%= link_to 'Delete', pizza_path(pizza), method: :delete, data: { confirm: 'Destroy this beautiful pizza?' }, id: "delete-pizza-#{pizza.id}" %>
-    </li>
-  <% end %>
-</ul>
 
-<%= link_to 'Add New Pizza', new_pizza_path %>
+      <div class="flex space-x-2">
+        <%= link_to 'Edit', edit_pizza_path(pizza), class: "btn btn-primary btn-sm" %>
+        <%= link_to 'Delete', pizza_path(pizza), method: :delete, data: { confirm: 'Destroy this beautiful pizza?' }, class: "btn btn-error btn-sm", id: "delete-pizza-#{pizza.id}" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="flex justify-center mt-8">
+  <%= link_to 'Add New Pizza', new_pizza_path, class: "btn btn-success btn-lg" %>
+</div>

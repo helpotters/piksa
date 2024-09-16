@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <% @pizzas.each do |pizza| %>
+    <!-- Each pizza card -->
+    <div class="card bg-white shadow-lg rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4"><%= pizza.name %></h2>
+
+      <ul class="list-disc list-inside text-gray-600">
+        <% pizza.toppings.each do |topping| %>
+          <li><span class="badge"><%= topping.name %></span></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
