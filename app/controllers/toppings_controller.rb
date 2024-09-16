@@ -1,4 +1,6 @@
 class ToppingsController < ApplicationController
+  before_action :authorize_store_owner, only: [:new, :create]
+
   def index
     @toppings = Topping.all
   end
@@ -20,5 +22,9 @@ class ToppingsController < ApplicationController
   def topping_params
     params.require(:topping).permit(:name)
   end
-
+  def authorize_store_owner
+    unless current_user&.role == 'store_owner'
+      redirect_to root_path, alert: 'You are not authorized to perform this action'
+    end
+  end
 end
