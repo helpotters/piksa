@@ -1,2 +1,33 @@
-<h1>Pizzas#new</h1>
-<p>Find me in app/views/pizzas/new.html.erb</p>
+<h1><%= @pizza.new_record? ? 'Create New Pizza' : 'Edit Pizza' %></h1>
+
+<%= form_with(model: @pizza, local: true) do |form| %>
+  <% if @pizza.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pizza.errors.count, "error") %> prohibited this pizza from being saved:</h2>
+
+      <ul>
+        <% @pizza.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+    <div class="field">
+    <%= form.label :toppings, "Select Toppings" %><br>
+    <% @toppings.each do |topping| %>
+        <%= check_box_tag 'pizza[topping_ids][]', topping.id, @pizza.toppings.include?(topping), id: "topping_#{topping.id}" %>
+        <%= label_tag "topping_#{topping.id}", topping.name %><br>
+    <% end %>
+    </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to Pizzas', pizzas_path %>
