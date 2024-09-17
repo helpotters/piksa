@@ -18,17 +18,18 @@
       </div>
       <div class="flex-none">
         <ul class="menu menu-horizontal px-1">
-          <li><%= link_to "Manage Pizzas", pizzas_path %></li>
+          <% if current_user&.role == 'store_owner' || current_user&.role == 'pizza_chef' %>
+            <li><%= link_to "Manage Pizzas", pizzas_path %></li>
+          <% end %>
           <% if current_user&.role == 'store_owner' %>
             <li><%= link_to "Manage Toppings", toppings_path %></li>
           <% end %>
         </ul>
 
-        <!-- Login/Logout Button for Devise Users -->
         <div class="flex-none">
           <ul class="menu menu-horizontal px-1">
             <% if user_signed_in? %>
-              <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+              <li><%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %></li>
             <% else %>
               <li><%= link_to "Sign In", new_user_session_path %></li>
               <li><%= link_to "Sign Up", new_user_registration_path %></li>

@@ -103,13 +103,13 @@ For quick testing, the seed file creates two users with specific roles:
 
 ### StoreOwner Credentials:
 - **Email**: `owner@pizza.com`
-- **Password**: `password123`
+- **Password**: `i<3pizza`
 - **Role**: StoreOwner
   - This user has full access to manage pizzas and toppings.
 
 ### PizzaChef Credentials:
 - **Email**: `chef@pizza.com`
-- **Password**: `password123`
+- **Password**: `i<3pizza`
 - **Role**: PizzaChef
   - This user can manage pizzas but cannot create, update, or delete toppings.
 
